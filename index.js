@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { HttpLink } = require('apollo-link-http');
 const fetch = require('node-fetch');
 const { ApolloServer } = require('apollo-server');
@@ -72,7 +74,12 @@ Promise.all([
       resolvers: resolverExtensions,
     });
 
-    const server = new ApolloServer({ schema: finalSchema });
+    const server = new ApolloServer({ 
+        schema: finalSchema,
+        engine: {
+            apiKey: process.env.ENGINE_API_KEY
+        }
+    });
 
     server.listen().then(({ url }) => console.log(`🚀  Server ready at ${url}`));
   });
